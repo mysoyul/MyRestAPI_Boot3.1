@@ -31,4 +31,7 @@ public class LectureResDto {
     private boolean offline;
     private boolean free;
     private String email;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
+
 }
