@@ -3,6 +3,7 @@ package com.basic.myrestapi.lectures;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -40,4 +41,9 @@ public class Lecture {
 
     @Enumerated(EnumType.STRING)
     private LectureStatus lectureStatus = LectureStatus.DRAFT;
+
+    @Column(nullable = false, updatable = false)
+    //@ColumnDefault(value = "CURRENT_TIMESTAMP")
+    @CreationTimestamp
+    private LocalDateTime createdAt = LocalDateTime.now();
 }    
