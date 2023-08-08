@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +30,9 @@ public class LectureController {
 
     @PostMapping
     public ResponseEntity createLecture(@RequestBody @Valid LectureReqDto lectureReqDto,
-                                        BindingResult errors) {
+                                        Errors errors) {
         if(errors.hasErrors()) {
-            return ResponseEntity.badRequest().build(); //400 오류발생
+            return ResponseEntity.badRequest().body(errors); //400 오류발생
         }
         //DTO => Entity
         Lecture lecture = modelMapper.map(lectureReqDto, Lecture.class);
