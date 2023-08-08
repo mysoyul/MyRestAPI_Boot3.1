@@ -12,16 +12,21 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 @JsonComponent
 public class ErrorsSerializer extends JsonSerializer<Errors>{
 	@Override
-	public void serialize(Errors errors, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+	public void serialize(Errors errors,
+                          JsonGenerator gen,
+                          SerializerProvider serializers) throws IOException {
 		gen.writeStartArray();
-        errors.getFieldErrors().forEach(e -> {
+        //FieldError 출력
+        //forEach(Consumer<? super T> action)
+        //Consumer의 추상메서드 void accept(T t);
+        errors.getFieldErrors().forEach(fieldError -> {
             try {
                 gen.writeStartObject();
-                gen.writeStringField("field", e.getField());
-                gen.writeStringField("objectName", e.getObjectName());
-                gen.writeStringField("code", e.getCode());
-                gen.writeStringField("defaultMessage", e.getDefaultMessage());
-                Object rejectedValue = e.getRejectedValue();
+                gen.writeStringField("field", fieldError.getField());
+                gen.writeStringField("objectName", fieldError.getObjectName());
+                gen.writeStringField("code", fieldError.getCode());
+                gen.writeStringField("defaultMessage", fieldError.getDefaultMessage());
+                Object rejectedValue = fieldError.getRejectedValue();
                 if (rejectedValue != null) {
                     gen.writeStringField("rejectedValue", rejectedValue.toString());
                 }
@@ -31,6 +36,7 @@ public class ErrorsSerializer extends JsonSerializer<Errors>{
             }
         });
 
+        //GlobalError 출력
         errors.getGlobalErrors().forEach(e -> {
             try {
                 gen.writeStartObject();
