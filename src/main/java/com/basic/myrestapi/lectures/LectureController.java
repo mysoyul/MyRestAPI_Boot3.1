@@ -1,5 +1,6 @@
 package com.basic.myrestapi.lectures;
 
+import com.basic.myrestapi.lectures.entity.Lecture;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
