@@ -1,5 +1,6 @@
 package com.basic.myrestapi.lectures;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/lectures", produces = MediaTypes.HAL_JSON_VALUE)
 public class LectureController {
+    private final LectureRepository lectureRepository;
+    //Constructor Injection
+//    public LectureController(LectureRepository lectureRepository) {
+//        this.lectureRepository = lectureRepository;
+//    }
+
     @PostMapping
     public ResponseEntity createLecture(@RequestBody Lecture lecture) {
         lecture.setId(10);
