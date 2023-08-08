@@ -45,6 +45,8 @@ public class LectureController {
 
         //DTO => Entity
         Lecture lecture = modelMapper.map(lectureReqDto, Lecture.class);
+        //free 와 offline 값을 설정
+        lecture.update();
         Lecture addLecture = this.lectureRepository.save(lecture);
 
         WebMvcLinkBuilder selfLinkBuilder = WebMvcLinkBuilder
