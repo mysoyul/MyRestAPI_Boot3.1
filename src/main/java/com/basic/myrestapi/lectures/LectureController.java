@@ -2,6 +2,7 @@ package com.basic.myrestapi.lectures;
 
 import com.basic.myrestapi.lectures.dto.LectureReqDto;
 import com.basic.myrestapi.lectures.entity.Lecture;
+import com.basic.myrestapi.lectures.validator.LectureValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,6 +23,7 @@ import java.net.URI;
 public class LectureController {
     private final LectureRepository lectureRepository;
     private final ModelMapper modelMapper;
+    private final LectureValidator lectureValidator;
 
     //Constructor Injection
 //    public LectureController(LectureRepository lectureRepository) {
@@ -31,9 +33,16 @@ public class LectureController {
     @PostMapping
     public ResponseEntity createLecture(@RequestBody @Valid LectureReqDto lectureReqDto,
                                         Errors errors) {
+        //입력항목의 값 자체를 검증
         if(errors.hasErrors()) {
             return ResponseEntity.badRequest().body(errors); //400 오류발생
         }
+        //입력항목을 값을 biz logic으로 검증
+        this.lectureValidator.validate(lectureReqDto, errors);
+        if(errors.hasErrors()) {
+            return ResponseEntity.badRequest().body(errors);
+        }
+
         //DTO => Entity
         Lecture lecture = modelMapper.map(lectureReqDto, Lecture.class);
         Lecture addLecture = this.lectureRepository.save(lecture);
