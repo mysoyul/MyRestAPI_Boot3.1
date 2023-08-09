@@ -40,12 +40,15 @@ public class LectureController {
 
     @GetMapping("/{id}")
     public ResponseEntity getLecture(@PathVariable Integer id) {
-        Optional<Lecture> optionalLecture = this.lectureRepository.findById(id);
-        if(optionalLecture.isEmpty()) {
-            return ResponseEntity.notFound().build(); //404
-        }
+//        Optional<Lecture> optionalLecture = this.lectureRepository.findById(id);
+//        if(optionalLecture.isEmpty()) {
+//            return ResponseEntity.notFound().build(); //404
+//        }
+//        Lecture lecture = optionalLecture.get();
 
-        Lecture lecture = optionalLecture.get();
+        Lecture lecture = this.lectureRepository.findById(id) //Optional<Lecture>
+                .orElseThrow();
+
         LectureResDto lectureResDto = modelMapper.map(lecture, LectureResDto.class);
         LectureResource lectureResource = new LectureResource(lectureResDto);
         return ResponseEntity.ok(lectureResource);
