@@ -9,7 +9,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 public class LectureResource extends RepresentationModel<LectureResource> {
     @JsonUnwrapped
-    private LectureResDto lectureResDto;
+    private final LectureResDto lectureResDto;
     public LectureResource(LectureResDto resDto) {
         this.lectureResDto = resDto;
         add(linkTo(LectureController.class).slash(resDto.getId()).withSelfRel());
