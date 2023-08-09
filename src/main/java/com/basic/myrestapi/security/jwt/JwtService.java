@@ -59,7 +59,7 @@ public class JwtService {
     }
 
     private String createToken(Map<String, Object> claims, String userName) {
-        return Jwts.builder()
+        return Jwts.builder() //JwtBuilder
                 .setClaims(claims)
                 .setSubject(userName)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
