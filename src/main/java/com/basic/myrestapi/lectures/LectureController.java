@@ -1,7 +1,9 @@
 package com.basic.myrestapi.lectures;
 
 import com.basic.myrestapi.lectures.dto.LectureReqDto;
+import com.basic.myrestapi.lectures.dto.LectureResDto;
 import com.basic.myrestapi.lectures.entity.Lecture;
+import com.basic.myrestapi.lectures.hateoas.LectureResource;
 import com.basic.myrestapi.lectures.validator.LectureValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RequiredArgsConstructor
 @RestController
@@ -48,13 +52,19 @@ public class LectureController {
         //free 와 offline 값을 설정
         lecture.update();
         Lecture addLecture = this.lectureRepository.save(lecture);
+        //Entity => ResDto
+        LectureResDto lectureResDto = modelMapper.map(addLecture, LectureResDto.class);
 
-        WebMvcLinkBuilder selfLinkBuilder = WebMvcLinkBuilder
-                        .linkTo(LectureController.class) //WebMvcLinkBuilder
-                        .slash(addLecture.getId());
-
+        WebMvcLinkBuilder selfLinkBuilder = linkTo(LectureController.class) //WebMvcLinkBuilder
+                        .slash(lectureResDto.getId());
         URI createUri = selfLinkBuilder.toUri();
-        return ResponseEntity.created(createUri).body(addLecture);
+
+        LectureResource lectureResource = new LectureResource(lectureResDto);
+        lectureResource.add(linkTo(LectureController.class).withRel("query-lectures"));
+        lectureResource.add(selfLinkBuilder.withSelfRel());
+        lectureResource.add(selfLinkBuilder.withRel("update-lecture"));
+
+        return ResponseEntity.created(createUri).body(lectureResource);
     }
 
     private static ResponseEntity<Errors> badRequest(Errors errors) {
