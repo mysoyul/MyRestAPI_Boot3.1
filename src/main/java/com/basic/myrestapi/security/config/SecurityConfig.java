@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -46,9 +48,10 @@ public class SecurityConfig {
 //                .and().build();
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/users/welcome").permitAll()
+                    auth.requestMatchers("/users/**").permitAll()
                             .requestMatchers("/api/lectures/**").authenticated();
                 })
+                .formLogin(withDefaults())
                 .build();
     }
 }
