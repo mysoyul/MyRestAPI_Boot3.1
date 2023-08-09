@@ -49,7 +49,8 @@ public class LectureController {
             함수형 인터페이스의 추상메서드 D toModel(T entity);
          */
         PagedModel<LectureResource> pagedModel =
-                assembler.toModel(lectureResDtoPage, resDto -> new LectureResource(resDto));
+                assembler.toModel(lectureResDtoPage, LectureResource::new);
+                //assembler.toModel(lectureResDtoPage, resDto -> new LectureResource(resDto));
         return ResponseEntity.ok(pagedModel);
     }
     @PostMapping
