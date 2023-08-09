@@ -11,6 +11,6 @@ public class AuthRequest {
     @Email
     private String email;
     @NotNull(message = "Password cannot be null")
-    @Size(min = 8, message = "Password must be equals or grater than 8 characters")
+    @Size(min = 4, message = "Password must be equals or grater than 4 characters")
     private String password;
 }
