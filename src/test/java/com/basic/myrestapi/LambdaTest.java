@@ -8,9 +8,15 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class LambdaTest {
-    @Test
+    @Test @Disabled
     public void runnable() {
 
+        /*
+            class MyRunnable implements Runnable {
+                void run();
+            }
+            Thread t1 = new Thread(new MyRunnable());
+         */
         //1. Anonymous Inner class 익명 내부 클래스
         Thread t1 = new Thread(new Runnable() {
             @Override
@@ -41,7 +47,7 @@ public class LambdaTest {
         //Consumer의 추상 메서드 void accept(T t)
         list.forEach(val -> System.out.println(val));
 
-        //3.Method Reference (람다식을 simple하게 표현)
+        //3.Method Reference (람다식을 Simple 하게 Argument 는 생략하고 Body 만 기술)
         list.forEach(System.out::println);
     }
 
@@ -51,15 +57,15 @@ public class LambdaTest {
 
         integerList.stream()//Stream<Integer>
                 .filter(val -> val % 2 == 0) //filter(Predicate)
-                .forEach(val -> System.out.println(val));
-                //.forEach(System.out::println); //forEach(Consumer)
+                //.forEach(val -> System.out.println(val));
+                .forEach(System.out::println); //forEach(Consumer)
 
         //2의 배수 합계
         int sum = integerList.stream() //Stream<Integer>
                 .filter(val -> val % 2 == 0)
                 //mapToInt(ToIntFunction) ToIntFunction의 추상메서드 int applyAsInt(T value)
-                .mapToInt(val -> val.intValue())
-                //.mapToInt(Integer::intValue)//IntStream
+                //.mapToInt(val -> val.intValue())
+                .mapToInt(Integer::intValue)//IntStream
                 .sum();
         System.out.println("sum = " + sum);
 
