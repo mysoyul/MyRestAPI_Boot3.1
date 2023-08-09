@@ -1,5 +1,6 @@
 package com.basic.myrestapi.lectures;
 
+import com.basic.myrestapi.common.exception.BusinessException;
 import com.basic.myrestapi.common.hateoas.ErrorsResource;
 import com.basic.myrestapi.lectures.dto.LectureReqDto;
 import com.basic.myrestapi.lectures.dto.LectureResDto;
@@ -16,6 +17,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +49,7 @@ public class LectureController {
 //        Lecture lecture = optionalLecture.get();
 
         Lecture lecture = this.lectureRepository.findById(id) //Optional<Lecture>
-                .orElseThrow();
+                .orElseThrow(() -> new BusinessException(id + " Lecture Not Found", HttpStatus.NOT_FOUND));
 
         LectureResDto lectureResDto = modelMapper.map(lecture, LectureResDto.class);
         LectureResource lectureResource = new LectureResource(lectureResDto);
