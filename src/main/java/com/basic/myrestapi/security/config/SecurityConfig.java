@@ -49,10 +49,6 @@ public class SecurityConfig {
                     auth.requestMatchers("/users/welcome").permitAll()
                             .requestMatchers("/api/lectures/**").authenticated();
                 })
-                .formLogin(formLogin -> formLogin
-                        .loginPage("/login")
-                        .permitAll()
-                )
                 .build();
     }
 }
