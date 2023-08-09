@@ -47,9 +47,11 @@ public class LectureController {
         Lecture existingLecture = this.lectureRepository.findById(id) //Optional<Lecture>
                 .orElseThrow(() -> new BusinessException(id + " Lecture Not Found", HttpStatus.NOT_FOUND));
 
+        //입력항목의 값 자체를 검증
         if (errors.hasErrors()) {
             return badRequest(errors);
         }
+        //입력항목을 값을 biz logic으로 검증
         lectureValidator.validate(lectureReqDto, errors);
         if (errors.hasErrors()) {
             return badRequest(errors);
@@ -57,6 +59,7 @@ public class LectureController {
 
         //ReqDto => Entity
         this.modelMapper.map(lectureReqDto, existingLecture);
+        existingLecture.update();
         Lecture savedLecture = this.lectureRepository.save(existingLecture);
 
         LectureResDto lectureResDto = modelMapper.map(savedLecture, LectureResDto.class);
