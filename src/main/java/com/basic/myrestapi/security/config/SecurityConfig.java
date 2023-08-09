@@ -99,7 +99,7 @@ public class SecurityConfig {
 //                .and().build();
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/users/**").permitAll()
+                    auth.requestMatchers("/users/**","/api").permitAll()
                             .requestMatchers("/api/lectures/**").authenticated();
                 })
                 //.formLogin(withDefaults())
