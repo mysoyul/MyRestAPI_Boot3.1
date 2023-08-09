@@ -20,6 +20,9 @@ public class LectureInsertRunner implements ApplicationRunner {
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
+        //ddl-auto=update로 변경했기 때문에 레코드를 모두 삭제하고 등록합니다.
+        lectureRepository.deleteAll();
+
 		IntStream.rangeClosed(1, 15) //IntStream
                 .forEach(this::generateLecture);
                 //.forEach(val -> generateLecture(val));
