@@ -1,5 +1,6 @@
 package com.basic.myrestapi.lectures.entity;
 
+import com.basic.myrestapi.security.userinfo.UserInfo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,6 +43,9 @@ public class Lecture {
     //@ColumnDefault(value = "CURRENT_TIMESTAMP")
     @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @ManyToOne
+    private UserInfo userInfo;
 
     public void update() {
         // Update free

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 
 @Component
-@Profile("prod") //나중에 변경 필요
+@Profile("test") //나중에 변경 필요
 public class LectureInsertRunner implements ApplicationRunner {
 	@Autowired
     LectureRepository lectureRepository;
