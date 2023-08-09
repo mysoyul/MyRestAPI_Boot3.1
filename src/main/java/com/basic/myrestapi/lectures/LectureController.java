@@ -42,7 +42,14 @@ public class LectureController {
         Page<Lecture> lecturePage = this.lectureRepository.findAll(pageable);
         //Page<Lecture> => Page<LectureResDto>
         Page<LectureResDto> lectureResDtoPage = lecturePage.map(entity -> modelMapper.map(entity, LectureResDto.class));
-        PagedModel<EntityModel<LectureResDto>> pagedModel = assembler.toModel(lectureResDtoPage);
+        //PagedModel<EntityModel<LectureResDto>> pagedModel = assembler.toModel(lectureResDtoPage);
+        /*
+            toModel(Page<T> page, RepresentationModelAssembler<T, R> assembler)
+            RepresentationModelAssembler<T, D extends RepresentationModel<?>>
+            함수형 인터페이스의 추상메서드 D toModel(T entity);
+         */
+        PagedModel<LectureResource> pagedModel =
+                assembler.toModel(lectureResDtoPage, resDto -> new LectureResource(resDto));
         return ResponseEntity.ok(pagedModel);
     }
     @PostMapping
