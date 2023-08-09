@@ -35,14 +35,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/users/welcome").permitAll()
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/lectures/**").authenticated()
-                .and()
-                .formLogin()
-                .and().build();
+//        return http.csrf().disable()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/users/welcome").permitAll()
+//                .and()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/api/lectures/**").authenticated()
+//                .and()
+//                .formLogin()
+//                .and().build();
+        return http.csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/users/welcome").permitAll()
+                            .requestMatchers("/api/lectures/**").authenticated();
+                })
+                .build();
     }
 }
